@@ -8,6 +8,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import main.Context;
+import main.ErrorProvider;
 import main.Message;
 
 public class FrmUsers extends javax.swing.JDialog {
@@ -406,17 +407,17 @@ public class FrmUsers extends javax.swing.JDialog {
 
         // if save: validate
         if (btnName.equals("save")) {
+            txtName.setText(txtName.getText().trim());
             if (txtName.getText().isEmpty()) {
                 txtName.requestFocus();
-                //var ballonTip = new BalloonTip(txtName, "Tooltip msg", false);
-                //ballonTip.setVisible(true);
-                //ToolTipUtils.balloonToToolTip(new BalloonTip(txtName, "Tooltip msg"), 100, 100);
+                ErrorProvider.setError(txtName, "Nombre vacío");
                 return;
             }
 
             // verify name not repeated
             if (User.isExists(txtName.getText(), _id)) {
                 txtName.requestFocus();
+                ErrorProvider.setError(txtName, "Nombre de usuario ya existe");
                 return;
             }
 
@@ -424,6 +425,7 @@ public class FrmUsers extends javax.swing.JDialog {
             if (_id == -1) {
                 if (txtPass.getText().isEmpty()) {
                     txtPass.requestFocus();
+                    ErrorProvider.setError(txtPass, "Contraseña vacía");
                     return;
                 }
             }
@@ -432,6 +434,7 @@ public class FrmUsers extends javax.swing.JDialog {
             if (!txtPass.getText().equals(txtConfirm.getText())) {
                 txtConfirm.setText("");
                 txtConfirm.requestFocus();
+                ErrorProvider.setError(txtConfirm, "Contraseñas diferentes");
                 return;
             }
         }
