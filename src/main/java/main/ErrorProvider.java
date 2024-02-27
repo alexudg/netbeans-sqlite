@@ -104,27 +104,8 @@ public class ErrorProvider {
         int h = p.getFontMetrics(p.getFont()).getHeight();
         win.add(p);
         win.setSize(w + PADDING_HOR + 8, h + PADDING_VER + 8);
-        
-        int x = 0;
-        int y = 0;
-        Component parent = component.getParent();
-        x += parent.getX();
-        x += parent.getY();
-        
-        while (parent.getClass() != JRootPane.class) {
-            //System.out.println("Class of parent: " + parent.getClass());
-            parent = parent.getParent();
-            x += parent.getX();
-            y += parent.getY();
-        }
-        parent = parent.getParent(); // Frame
-        //System.out.println("Class of parent: " + parent.getClass());
-        x += parent.getX();
-        y += parent.getY();
-        
-        win.setLocation(
-                x + component.getX(),
-                y + component.getY());
+        win.setSize(p.getSize());
+        win.setLocation(component.getLocationOnScreen());
         //win.setOpacity(1);
         win.setVisible(true);
         tmrHide.start();
